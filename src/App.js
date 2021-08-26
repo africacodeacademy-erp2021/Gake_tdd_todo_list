@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import TodoList from './components/TodoList/TodoList'
 import './App.css';
 
+/**
+* use usestate hook to set variables false 
+*/
 function App() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
