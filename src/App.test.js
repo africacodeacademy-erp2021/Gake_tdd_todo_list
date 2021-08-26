@@ -4,6 +4,12 @@ import userEvent from '@testing-library/user-event';
 import App from './App';
 import mockData from './mockData';
 
+
+/**
+* calls the beforeEach function and passing in a callback function.
+* imports mockData object from the mockData.js file.
+* imports the App component from the App.js file.
+*/
 beforeEach(() => {
   fetchMock.once(
     [
@@ -12,8 +18,11 @@ beforeEach(() => {
   )
 })
 
-describe("<App /> test", () => {
-  it("should render <App /> component", async () => {
+/**
+* await to see if loading is removed from screen
+* then checks if "My Todo List" appears on screen
+*/
+test('renders app',async() =>{
     render(<App />);
 
     await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
@@ -21,7 +30,13 @@ describe("<App /> test", () => {
     
   });
 
-  it("should add a todo item", async () => {
+
+/**
+* mocks the fetch call to the API.
+* checks if the added todo item is appears on the list.
+*/
+test('should add a TODO item', async () =>{
+ 
     fetchMock.once(JSON.stringify({
       userId: 3,
       id: Math.floor(Math.random() * 100) + 1 ,
@@ -36,19 +51,32 @@ describe("<App /> test", () => {
     userEvent.click(screen.getByText(/Add new todo/i));
     await waitForElementToBeRemoved(() => screen.getByText(/saving/i));
     expect(screen.getByText(/Do math homework/i)).toBeInTheDocument();
-  });
 
-  it("remove todo from list", async () => {
-    render(<App />);
-    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
-    userEvent.click(screen.getByTestId('close-btn-3'));
-    expect(screen.queryByText(/Take out the trash/i)).not.toBeInTheDocument();
-  });
+});
 
-  it("todo item should be crossed out after completing", async () => {
+/**
+* waits for the loading message to disappear.
+* when user clicks the checkbox for the first todo item.
+* It expect first item to be crossed out
+*/
+test('item to be crossed out after completing',async()=>{
     render(<App />);
+
     await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
     userEvent.click(screen.getByTestId('checkbox-1'));
     expect(screen.getByText(/eat breakfast/i)).toHaveClass('completed');
-  });
 });
+
+/**
+*   waits for the todo item to be removed from the DOM after user clicks on delete.
+*  confirms that the todo item is no longer in the DOM.
+*/
+test('item to be removed after deleting',async()=>{
+    render(<App />);
+
+    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
+    userEvent.click(screen.getByTestId('close-btn-3'));
+    expect(screen.queryByText(/Take out the trash/i)).not.toBeInTheDocument();
+  
+});
+
