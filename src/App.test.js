@@ -35,7 +35,7 @@ test('renders app',async() =>{
 * mocks the fetch call to the API.
 * checks if the added todo item is appears on the list.
 */
-test('should add a TODO item', async () =>{
+test('should add a TODO items', async () =>{
  
     fetchMock.once(JSON.stringify({
       userId: 3,
@@ -59,7 +59,7 @@ test('should add a TODO item', async () =>{
 * when user clicks the checkbox for the first todo item.
 * It expect first item to be crossed out
 */
-test('item to be crossed out after completing',async()=>{
+test('items to be crossed out after completing',async()=>{
     render(<App />);
 
     await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
@@ -71,7 +71,7 @@ test('item to be crossed out after completing',async()=>{
 *   waits for the todo item to be removed from the DOM after user clicks on delete.
 *  confirms that the todo item is no longer in the DOM.
 */
-test('item to be removed after deleting',async()=>{
+test('items to be removed after deleting',async()=>{
     render(<App />);
 
     await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
